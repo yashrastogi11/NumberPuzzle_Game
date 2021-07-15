@@ -36,27 +36,60 @@ class CustomNumberPuzzleControl extends NumberPuzzleControl {
 		Button buttonClicked = game.getButtonClicked();
 		Button[] buttons = game.getButtons();
 		
-		//Your logic here		
-		
+		emptyCellId=game.getEmptyCellId();
+		//Your logic here
+		int upId=emptyCellId-4,downId=emptyCellId+4,rightId=emptyCellId+1,leftId=emptyCellId-1;
+		if(upId>=0 && buttonClicked==buttons[upId])
+		{ swapButton(buttons[emptyCellId],buttonClicked);
+		  emptyCellId=upId;
+		}
+		else if(downId<=15  && buttonClicked==buttons[downId])
+		{ swapButton(buttons[emptyCellId],buttonClicked);
+		  emptyCellId=downId;
+		}
+		else if(leftId>=0 && leftId%4!=3 && buttonClicked==buttons[leftId] )
+		{ swapButton(buttons[emptyCellId],buttonClicked);
+		  emptyCellId=leftId;
+		}
+		else if(rightId<=15 && rightId%4!=0 && buttonClicked==buttons[rightId])
+		{ swapButton(buttons[emptyCellId],buttonClicked);
+		  emptyCellId=rightId;
+		}
 		return emptyCellId;
 
 	}
 	public int[] getRandomNumbersForGrid() {
 		int arr[] = new int[15];
-		
 		//Your logic here
-		int a = getRandomNumber();
-		
-		
+		for(int i=0;i<15;i++) {
+			int k=0;
+			int a = getRandomNumber();
+			a=a%16;
+			if(a==0)
+				a++;
+			for(int j=0;j<arr.length;j++)
+			{	if(a==arr[j])
+				{i--;
+				k=1; 
+				break;}
+			}
+			if(k==1)
+				continue;;
+			arr[i]=a;
+
+		}
 		return arr;
 	}
 	public boolean checkForWinner(Button[] buttons)
 	{
-		boolean winner = true;
+		//boolean winner = false;
 		
 		// Your Logic here
-		getIntegerArrayOfButtonIds(buttons);
-
-		return winner;
+		int arr[]=getIntegerArrayOfButtonIds(buttons);
+		for (int i=0;i<arr.length-1;i++) {
+	        if (arr[i]>arr[i+1])
+	            return false;
+	    }
+		return true;
 	}
 }
